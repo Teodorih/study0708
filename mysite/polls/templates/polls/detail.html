@@ -9,4 +9,8 @@
     <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
 {% endfor %}
 <input type="submit" value="Vote">
+
+
+    <p> for update this question - click here</p>
+    <a href="{% url 'polls:update' question.id %}">update</a>
 </form>

@@ -1,7 +1,7 @@
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.template import loader
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import generic
 
 from polls.models import Question, Choice
@@ -24,6 +24,26 @@ class DetailView(generic.DetailView):
 class ResultsView(generic.DetailView):
     model = Question
     template_name = 'polls/results.html'
+
+
+class QuestionCreate(generic.CreateView):
+    model = Question
+    fields = ['question_text']
+    template_name = 'polls/question_form.html'
+    success_url = reverse_lazy('polls:index')
+
+
+class QuestionUpdate(generic.UpdateView):
+    model = Question
+    fields = ['question_text']
+    template_name = 'polls/question_form.html'
+    success_url = reverse_lazy('polls:index')
+
+
+class QuestionDelete(DetailView):
+    model = Question
+    template_name = 'polls/question_confirm_delete.html'
+    success_url = reverse_lazy('polls:index')
 
 
 def vote(request, question_id):
