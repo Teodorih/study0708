@@ -8,7 +8,6 @@ from polls.models import Question, Choice
 
 
 class IndexView(generic.ListView):
-    template_name = 'polls/index.html'
     context_object_name = 'latest_question_list'
 
     def get_queryset(self):
@@ -28,21 +27,22 @@ class ResultsView(generic.DetailView):
 
 class QuestionCreate(generic.CreateView):
     model = Question
-    fields = ['question_text']
-    template_name = 'polls/question_form.html'
-    success_url = reverse_lazy('polls:index')
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('polls:detail', kwargs={'pk': self.object.pk})
 
 
 class QuestionUpdate(generic.UpdateView):
     model = Question
-    fields = ['question_text']
-    template_name = 'polls/question_form.html'
-    success_url = reverse_lazy('polls:index')
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('polls:detail', kwargs={'pk': self.object.pk})
 
 
-class QuestionDelete(DetailView):
+class QuestionDelete(generic.DeleteView):
     model = Question
-    template_name = 'polls/question_confirm_delete.html'
     success_url = reverse_lazy('polls:index')
 
 
